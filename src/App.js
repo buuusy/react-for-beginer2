@@ -9,18 +9,18 @@ function App() {
     setKeyword(e.target.value);
   };
 
-  console.log('i run all the time');
-
   useEffect(() => {
-    console.log('CALL the api');
+    console.log('i run only once');
   }, []);
-  // 최초 렌더링만 실행
 
   useEffect(() => {
-    if (keyword !== '' && keyword.length > 5) {
-      console.log('search for', keyword);
-    }
+    console.log('i run when "keyword" changes.');
   }, [keyword]);
+
+  useEffect(() => {
+    console.log('i run when "couter" changes.');
+  }, [counter]);
+
   return (
     <div>
       <input onChange={onChange} value={keyword} type="text" placeholder="Search here..." />
