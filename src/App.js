@@ -17,10 +17,8 @@ const App = () => {
       });
   }, []);
 
-  console.log(coins);
-  console.log(Selected);
-
   const selectedCoin = (e) => setSelected((prev) => e.target.value);
+  const optionList = coins.filter((coin) => !Selected.includes(coin.name));
 
   return (
     <div>
@@ -39,7 +37,7 @@ const App = () => {
       <hr />
       <h2>Change Coins</h2>
       <ul>
-        {coins.map((coin) => (
+        {optionList.map((coin) => (
           <li key={coin.id}>
             {coin.name} ({coin.symbol}) :
             {Selected ? `${coin.quotes.USD.price / Selected.match(regex)} USD` : null}
