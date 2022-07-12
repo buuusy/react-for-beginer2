@@ -1,33 +1,52 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 
-function App() {
-  const [toDo, setToDo] = useState('');
-  const [toDos, setToDos] = useState([]);
-  const onChange = (e) => setToDo(e.target.value);
+const App = () => {
+  const [loading, setLoding] = useState(true);
+  const [coins, setCoins] = useState([]);
+  const [Selected, setSelected] = useState('');
+  const regex = /\b[+-]?\d+(?:,\d{3})*(?:\.\d+)?\b/;
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (toDo === '') {
-      return;
-    }
-    setToDos((currentArray) => [toDo, ...currentArray]);
-    setToDo('');
-  };
-  console.log(toDos);
+  //한번 실행되는 함수
+  useEffect(() => {
+    fetch('https://api.coinpaprika.com/v1/tickers')
+      .then((res) => res.json())
+      .then((json) => {
+        setCoins(json);
+        setLoding(false);
+      });
+  }, []);
+
+  console.log(coins);
+  console.log(Selected);
+
+  const selectedCoin = (e) => setSelected((prev) => e.target.value);
 
   return (
     <div>
-      <h1>My To Dos ({toDos.length})</h1>
-      <form onSubmit={onSubmit}>
-        <input value={toDo} onChange={onChange} type="text" placeholder="Write your to do.." />
-        <button>Add To do</button>
-      </form>
+      <h1>The Coins!({loading ? '' : coins.length})</h1>
+      {loading ? (
+        <strong>Loading...</strong>
+      ) : (
+        <select onChange={selectedCoin} value={Selected}>
+          {coins.map((coin) => (
+            <option key={coin.id}>
+              {coin.name} ({coin.symbol}) : {coin.quotes.USD.price} USD
+            </option>
+          ))}
+        </select>
+      )}
       <hr />
-      {toDos.map((v, i) => (
-        <li key={i}>{v}</li>
-      ))}
+      <h2>Change Coins</h2>
+      <ul>
+        {coins.map((coin) => (
+          <li key={coin.id}>
+            {coin.name} ({coin.symbol}) :
+            {Selected ? `${coin.quotes.USD.price / Selected.match(regex)} USD` : null}
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
-
+};
 export default App;
