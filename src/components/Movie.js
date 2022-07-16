@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Movie = ({ medium_cover_image, title, summary, genres }) => {
+const Movie = ({ coverImg, title, summary, genres }) => {
   return (
     <div>
-      <img src={medium_cover_image} alt={title} />
+      <img src={coverImg} alt={title} />
       <h2>{title}</h2>
       <p>{summary}</p>
       <ul>
