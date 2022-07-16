@@ -18,7 +18,7 @@ const App = () => {
     getMovies();
   }, []);
 
-  console.log();
+  console.log(movies);
   return (
     <div>
       {loading ? (
@@ -29,7 +29,7 @@ const App = () => {
             <Movie
               key={movie.id}
               coverImg={movie.medium_cover_image}
-              titie={movie.title}
+              title={movie.title}
               summary={movie.summary}
               genres={movie.genres}
             />
